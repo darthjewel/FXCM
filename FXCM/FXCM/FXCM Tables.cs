@@ -20,7 +20,12 @@ namespace FXCM
             {
                 try
                 {
-                    AppendText(Environment.NewLine + "The Application status :" + data.NewValue + "!"); //cross thread
+                    AppendTextNL("The Application status : " + data.NewValue + " !"); //cross thread
+                    if((O2GSessionStatusCode)data.NewValue == O2GSessionStatusCode.Connected)
+                    {
+                        man = mSession.getTableManager();
+                        AppendTextNL(man.getStatus().ToString());
+                    }
                 }
                 catch (Exception oval)
                 {
@@ -175,6 +180,36 @@ namespace FXCM
             public void onStatusChanged(O2GTableStatus status)
             {
                 Console.WriteLine("status changed");
+            }
+        }
+        public void load_account_data(O2GTableManager tableManager, ATableListener tbTableListener)
+        {
+            O2GTableManagerStatus ts = tableManager.getStatus();
+            if (ts == O2GTableManagerStatus.TablesLoaded)
+            {
+                O2GAccountsTable accountsTable = (O2GAccountsTable)tableManager.getTable(O2GTableType.Accounts);
+
+                //   display.Text += accountsTable.ToString();
+                O2GAccountTableRow accountTableRow = null;
+                O2GTableIterator tableIterator = new O2GTableIterator(); //{0, 0, null};
+                while (accountsTable.getNextRow(tableIterator, out accountTableRow))
+                {
+                    AppendText(
+                        "Account ID : " + accountTableRow.AccountID + Environment.NewLine
+                       + "Account Name : " + accountTableRow.AccountName + Environment.NewLine
+                       + "Balance : " + accountTableRow.Balance + Environment.NewLine
+                       + "Equity : " + accountTableRow.Equity.ToString() + Environment.NewLine
+                       + "Usable Margin : " + accountTableRow.UsableMargin.ToString() + Environment.NewLine
+                       + "Used Margin : " + accountTableRow.UsedMargin.ToString() + Environment.NewLine);
+
+                }
+
+                //    accountsTable.subscribeUpdate(O2GTableUpdateType.Update, tbTableListener);
+            }
+            else
+            {
+                AppendTextNL("cannot get account data :" + ts.ToString());
+
             }
         }
     }

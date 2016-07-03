@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 using fxcore2;
 
 
@@ -22,6 +23,10 @@ namespace FXCM
         private TableListener tbTableListener = null;
         private ATableListener atl = null;
         private DataSet ds;
+        private string user = null;
+        private string password = null;
+        private string url = null;
+        private string connection = null;
 
         private void AppendText(string text)
         {
@@ -47,6 +52,13 @@ namespace FXCM
                 this.displayBox.Text += text+Environment.NewLine;
             }
         }
+        private void appSettings()
+        {
+            user = ConfigurationManager.AppSettings["user"];
+            password = ConfigurationManager.AppSettings["password"];
+            url = ConfigurationManager.AppSettings["url"];
+            connection = ConfigurationManager.AppSettings["connection"];
+        }
         public Form1()
         {
             InitializeComponent();
@@ -57,9 +69,30 @@ namespace FXCM
             statusListener.PropertyChange += new MysessionStatusListener.PropertyChangeHandler(PropertyHasChanged);
             tbTableListener = new TableListener();
           //  load_records();
-            tbTableListener.table = ds.Tables[0];
+          //  tbTableListener.table = ds.Tables[0];
           //  dataGridView1.DataSource = tbTableListener.table;
             atl = new ATableListener();
+            appSettings();
+        }
+
+        private void connectButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+
+                mSession.login(user, password, url, connection);
+            }
+            catch (Exception oval)
+            {
+
+                AppendTextNL(oval.Message);
+            }
+        }
+
+        private void accountButton_Click(object sender, EventArgs e)
+        {
+            load_account_data(man, atl);
         }
     }
 }

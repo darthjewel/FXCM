@@ -30,6 +30,7 @@
         {
             this.connectButton = new System.Windows.Forms.Button();
             this.displayBox = new System.Windows.Forms.TextBox();
+            this.accountButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // connectButton
@@ -40,6 +41,7 @@
             this.connectButton.TabIndex = 0;
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
             // displayBox
             // 
@@ -49,11 +51,22 @@
             this.displayBox.Size = new System.Drawing.Size(243, 167);
             this.displayBox.TabIndex = 1;
             // 
+            // accountButton
+            // 
+            this.accountButton.Location = new System.Drawing.Point(114, 27);
+            this.accountButton.Name = "accountButton";
+            this.accountButton.Size = new System.Drawing.Size(75, 23);
+            this.accountButton.TabIndex = 2;
+            this.accountButton.Text = "Account";
+            this.accountButton.UseVisualStyleBackColor = true;
+            this.accountButton.Click += new System.EventHandler(this.accountButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.accountButton);
             this.Controls.Add(this.displayBox);
             this.Controls.Add(this.connectButton);
             this.Name = "Form1";
@@ -67,6 +80,7 @@
 
         private System.Windows.Forms.Button connectButton;
         private System.Windows.Forms.TextBox displayBox;
+        private System.Windows.Forms.Button accountButton;
     }
 }
 
