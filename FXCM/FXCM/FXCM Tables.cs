@@ -14,6 +14,25 @@ namespace FXCM
     }
     public partial class Form1 : Form
     {
+        public void PropertyHasChanged(object sender, PropertyChangeEventArgs data)
+        {
+            if (data.PropertyName == "Name")
+            {
+                try
+                {
+                    AppendText(Environment.NewLine + "The Application status :" + data.NewValue + "!"); //cross thread
+                }
+                catch (Exception oval)
+                {
+
+                    Console.WriteLine(oval.Message);
+                }
+
+                //   Console.WriteLine("The Application connected!");
+                //"New value: '" + (string)data.NewValue + "' was: '" + (string)data.OldValue + "'");
+
+            }
+        }
         public class PropertyChangeEventArgs : EventArgs
         {
             public string PropertyName { get; internal set; }
