@@ -16,7 +16,14 @@ namespace FXCM
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            try
+            {
+                Application.Run(new Form1());
+            }
+            catch (Exception oval)
+            {
+                MessageBox.Show(oval.Message);
+            }
         }
     }
 }
